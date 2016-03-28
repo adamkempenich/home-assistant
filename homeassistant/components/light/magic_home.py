@@ -1,21 +1,17 @@
 """
-Support for LimitlessLED bulbs.
+Support for MagicHome Wifi devices.
 
 For more details about this platform, please refer to the documentation at
-https://home-assistant.io/components/light.limitlessled/
+https://home-assistant.io/components/light.magichome/
 """
 import logging
 
 from homeassistant.components.light import (
-    ATTR_BRIGHTNESS, ATTR_COLOR_TEMP, ATTR_EFFECT, ATTR_FLASH, ATTR_RGB_COLOR,
+    ATTR_BRIGHTNESS, ATTR_EFFECT, ATTR_FLASH, ATTR_RGB_COLOR,
     ATTR_TRANSITION, EFFECT_COLORLOOP, EFFECT_WHITE, FLASH_LONG, Light)
 
 _LOGGER = logging.getLogger(__name__)
-REQUIREMENTS = ['limitlessled==1.0.0']
-RGB_BOUNDARY = 40
-DEFAULT_TRANSITION = 0
-DEFAULT_PORT = 8899
-DEFAULT_VERSION = 5
+REQUIREMENTS = ['magichomewifi==1.0.0']
 DEFAULT_LED_TYPE = 'rgbw'
 WHITE = [255, 255, 255]
 
@@ -47,8 +43,8 @@ def rewrite_legacy(config):
 
 
 def setup_platform(hass, config, add_devices_callback, discovery_info=None):
-    """Setup the LimitlessLED lights."""
-    from limitlessled.bridge import Bridge
+    """Set up MagicHome Lights."""
+    from magichome.python import MagicHome
 
     # Two legacy configuration formats are supported to
     # maintain backwards compatibility.
@@ -236,32 +232,4 @@ class LimitlessLEDRGBWGroup(LimitlessLEDGroup):
                 self._color = WHITE
 
 
-def _from_hass_temperature(temperature):
-    """Convert Home Assistant color temperature units to percentage."""
-    return (temperature - 154) / 346
 
-
-def _to_hass_temperature(temperature):
-    """Convert percentage to Home Assistant color temperature units."""
-    return int(temperature * 346) + 154
-
-
-def _from_hass_brightness(brightness):
-    """Convert Home Assistant brightness units to percentage."""
-    return brightness / 255
-
-
-def _to_hass_brightness(brightness):
-    """Convert percentage to Home Assistant brightness units."""
-    return int(brightness * 255)
-
-
-def _from_hass_color(color):
-    """Convert Home Assistant RGB list to Color tuple."""
-    from limitlessled import Color
-    return Color(*tuple(color))
-
-
-def _to_hass_color(color):
-    """Convert from Color tuple to Home Assistant RGB list."""
-    return list([int(c) for c in color])
