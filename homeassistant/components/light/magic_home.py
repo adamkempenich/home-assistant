@@ -8,7 +8,7 @@ import logging
 
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS, ATTR_EFFECT, ATTR_FLASH, ATTR_RGB_COLOR,
-    ATTR_TRANSITION, EFFECT_COLORLOOP, EFFECT_WHITE, FLASH_LONG, Light)
+    EFFECT_COLORLOOP, EFFECT_WHITE, FLASH_LONG, Light)
 
 _LOGGER = logging.getLogger(__name__)
 REQUIREMENTS = ['magichomewifi==1.0.0']
